@@ -49,12 +49,16 @@ export const CreatePenitip = async (data) => {
 //update
 export const UpdatePenitip = async (values) => {
   try {
-    const response = await useAxios.put(`/penitip/${values.id}`, values, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-      },
-    });
+    const response = await useAxios.put(
+      `/penitip/${values.id_penitip}`,
+      values,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     throw error.response.data;
@@ -77,7 +81,6 @@ export const DeletePenitip = async (id) => {
     throw error.response.data;
   }
 };
-
 
 export const UpdateRatingPenitip = async (id, rating) => {
   try {

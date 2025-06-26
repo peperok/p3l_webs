@@ -11,6 +11,7 @@ import HomeOrganisasi from "../components/Home/HomeOrganisasi";
 import HomeAdmin from "../components/Home/HomeAdmin";
 import HomeOwner from "../components/Home/HomeOwner";
 import HomeGudang from "../components/Home/HomeGudang";
+import HomeCS from "../components/Home/HomeCS";
 import Nota from "../components/Home/Nota";
 import ProfilPenitip from "../components/Profil/ProfilPenitip";
 import Keranjang from "../components/Home/Keranjang";
@@ -19,6 +20,7 @@ import Komisi from "../components/Admin/Komisi";
 import PaymentAndRating from "../components/Home/PaymentAndRating";
 import DataPegawai from "../components/Admin/DataPegawai";
 import LaporanPage from "../components/Owner/LaporanPage";
+import PenitipCRUD from "../components/CS/CRUDPenitip";
 
 const router = createBrowserRouter([
   {
@@ -62,6 +64,17 @@ const router = createBrowserRouter([
     element: <HomeGudang />,
   },
   {
+    path: "/homeCS",
+    element: <HomeCS />,
+    children: [
+      {
+        path: "penitip", // hasil akhir: /homeCS/penitip
+        element: <PenitipCRUD />,
+      },
+      // tambahkan rute lain di sini sesuai kebutuhan
+    ],
+  },
+  {
     path: "/profilPenitip",
     element: <ProfilPenitip />,
   },
@@ -77,10 +90,10 @@ const router = createBrowserRouter([
     path: "/paymentSuccess",
     element: <PaymentAndRating productId={1} />,
   },
-  {
-    path: "/admin/penitip",
-    element: <DataPenitip />,
-  },
+  // {
+  //   path: "homeCS/admin/penitip",
+  //   element: <DataPenitip />,
+  // },
   {
     path: "/admin/komisi",
     element: <Komisi />,

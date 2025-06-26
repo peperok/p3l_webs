@@ -12,17 +12,17 @@ import {
 } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
-const navItems = [
-  "Dashboard",
-  "Barang",
-  "Merchandise",
-  "Data Pegawai",
-  "Data Pembeli",
-  "Data Penitip",
-  "Data Organisasi",
-  "Request Donasi",
-  "Profile",
-];
+// const navItems = [
+//   // "Dashboard",
+//   // "Barang",
+//   // "Merchandise",
+//   // "Data Pegawai",
+//   // "Data Pembeli",
+//   // "Data Penitip",
+//   // "Data Organisasi",
+//   // "Request Donasi",
+//   // "Profile",
+// ];
 
 const initialForm = { nama: "", alamat: "", notelp: "" };
 const initialTransaksiForm = { barang: "", jumlah: 1, tanggalMasuk: "" };
@@ -50,7 +50,7 @@ const DataPenitip = () => {
   // === API: Fetch daftar penitip ===
   const fetchPenitip = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/penitips`);
+      const response = await axios.get(`${API_BASE_URL}/penitip`);
       setPenitipList(response.data.data || []);
     } catch (error) {
       alert("Gagal memuat data penitip");
@@ -63,11 +63,11 @@ const DataPenitip = () => {
       if (editIndex !== null) {
         // Update penitip (misal API PUT /penitips/{id})
         const idPenitip = penitipList[editIndex].id_penitip;
-        await axios.put(`${API_BASE_URL}/penitips/${idPenitip}`, formData);
+        await axios.put(`${API_BASE_URL}/penitip/${idPenitip}`, formData);
         alert("Data penitip berhasil diperbarui");
       } else {
         // Tambah penitip baru (POST /penitips)
-        await axios.post(`${API_BASE_URL}/penitips`, formData);
+        await axios.post(`${API_BASE_URL}/penitip`, formData);
         alert("Penitip baru berhasil ditambahkan");
       }
       setShowModal(false);
@@ -82,7 +82,7 @@ const DataPenitip = () => {
   const deletePenitip = async (index) => {
     try {
       const idPenitip = penitipList[index].id_penitip;
-      await axios.delete(`${API_BASE_URL}/penitips/${idPenitip}`);
+      await axios.delete(`${API_BASE_URL}/penitip/${idPenitip}`);
       alert("Penitip berhasil dihapus");
       fetchPenitip();
       setSelectedPenitipIndex(null);
@@ -95,7 +95,9 @@ const DataPenitip = () => {
   const fetchTransaksi = async (index) => {
     try {
       const idPenitip = penitipList[index].id_penitip;
-      const response = await axios.get(`${API_BASE_URL}/penitipan?id_penitip=${idPenitip}`);
+      const response = await axios.get(
+        `${API_BASE_URL}/penitipan?id_penitip=${idPenitip}`
+      );
       // Simpan transaksi ke penitipList[index].transaksi
       const updated = [...penitipList];
       updated[index].transaksi = response.data.data || [];
@@ -121,7 +123,8 @@ const DataPenitip = () => {
 
       if (transaksiEditIndex !== null) {
         // Update transaksi
-        const transaksiId = penitipList[selectedPenitipIndex].transaksi[transaksiEditIndex].id;
+        const transaksiId =
+          penitipList[selectedPenitipIndex].transaksi[transaksiEditIndex].id;
         await axios.put(`${API_BASE_URL}/transaksi/${transaksiId}`, payload);
         alert("Transaksi berhasil diperbarui");
       } else {
@@ -142,7 +145,8 @@ const DataPenitip = () => {
     if (selectedPenitipIndex === null) return;
 
     try {
-      const transaksiId = penitipList[selectedPenitipIndex].transaksi[transaksiIndex].id;
+      const transaksiId =
+        penitipList[selectedPenitipIndex].transaksi[transaksiIndex].id;
       await axios.delete(`${API_BASE_URL}/transaksi/${transaksiId}`);
       alert("Transaksi berhasil dihapus");
       fetchTransaksi(selectedPenitipIndex);
@@ -163,7 +167,8 @@ const DataPenitip = () => {
     setFormData(initialForm);
     setEditIndex(null);
   };
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   const handleSubmit = (e) => {
     e.preventDefault();
     savePenitip();
@@ -226,11 +231,12 @@ const DataPenitip = () => {
   const filteredList = penitipList.filter((item) =>
     item.nama.toLowerCase().includes(search.toLowerCase())
   );
-  const transaksiFiltered = selectedPenitipIndex !== null
-    ? (penitipList[selectedPenitipIndex].transaksi || []).filter((t) =>
-        t.barang.toLowerCase().includes(searchTransaksi.toLowerCase())
-      )
-    : [];
+  const transaksiFiltered =
+    selectedPenitipIndex !== null
+      ? (penitipList[selectedPenitipIndex].transaksi || []).filter((t) =>
+          t.barang.toLowerCase().includes(searchTransaksi.toLowerCase())
+        )
+      : [];
 
   // Fungsi hitung durasi tetap sama
   const hitungDurasi = (tanggalMasuk) => {
@@ -241,9 +247,12 @@ const DataPenitip = () => {
   };
 
   return (
-    <div className="d-flex vh-100" style={{ fontFamily: "Poppins, sans-serif" }}>
+    <div
+      className="d-flex vh-100"
+      style={{ fontFamily: "Poppins, sans-serif" }}
+    >
       {/* Sidebar */}
-      <div style={styles.sidebar}>
+      {/* <div style={styles.sidebar}>
         <h4 className="text-center mb-4">ReuseMart</h4>
         {navItems.map((item) => (
           <NavLink
@@ -263,7 +272,7 @@ const DataPenitip = () => {
         >
           Logout
         </NavLink>
-      </div>
+      </div> */}
 
       {/* Main Content */}
       <div className="flex-grow-1 p-4 bg-light overflow-auto">
@@ -317,7 +326,10 @@ const DataPenitip = () => {
                       </Button>
                       <Button
                         size="sm"
-                        style={{ ...styles.transaksiButton, marginRight: "8px" }}
+                        style={{
+                          ...styles.transaksiButton,
+                          marginRight: "8px",
+                        }}
                         onClick={() => fetchTransaksi(index)}
                       >
                         Lihat Transaksi
@@ -339,7 +351,10 @@ const DataPenitip = () => {
           {/* Daftar Transaksi Penitip */}
           {selectedPenitipIndex !== null && (
             <div className="mt-4 bg-white p-3 rounded shadow-sm">
-              <h5>Transaksi Barang Titipan - {penitipList[selectedPenitipIndex].nama}</h5>
+              <h5>
+                Transaksi Barang Titipan -{" "}
+                {penitipList[selectedPenitipIndex].nama}
+              </h5>
 
               <Row className="mb-2">
                 <Col md={6}>
@@ -350,7 +365,10 @@ const DataPenitip = () => {
                       value={searchTransaksi}
                       onChange={(e) => setSearchTransaksi(e.target.value)}
                     />
-                    <Button variant="outline-secondary" onClick={() => setSearchTransaksi("")}>
+                    <Button
+                      variant="outline-secondary"
+                      onClick={() => setSearchTransaksi("")}
+                    >
                       Reset
                     </Button>
                   </InputGroup>
@@ -389,7 +407,9 @@ const DataPenitip = () => {
                           <Button
                             size="sm"
                             style={{ ...styles.editButton, marginRight: "8px" }}
-                            onClick={() => openTransaksiModal(selectedPenitipIndex, i)}
+                            onClick={() =>
+                              openTransaksiModal(selectedPenitipIndex, i)
+                            }
                           >
                             Edit
                           </Button>
@@ -418,7 +438,9 @@ const DataPenitip = () => {
           {/* Modal Penitip */}
           <Modal show={showModal} onHide={handleClose} centered>
             <Modal.Header closeButton style={styles.modalHeader}>
-              <Modal.Title>{editIndex !== null ? "Edit" : "Tambah"} Penitip</Modal.Title>
+              <Modal.Title>
+                {editIndex !== null ? "Edit" : "Tambah"} Penitip
+              </Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Form onSubmit={handleSubmit}>
@@ -459,9 +481,16 @@ const DataPenitip = () => {
           </Modal>
 
           {/* Modal Transaksi */}
-          <Modal show={showTransaksiModal} onHide={closeTransaksiModal} centered>
+          <Modal
+            show={showTransaksiModal}
+            onHide={closeTransaksiModal}
+            centered
+          >
             <Modal.Header closeButton style={styles.modalHeader}>
-              <Modal.Title>{transaksiEditIndex !== null ? "Edit" : "Tambah"} Transaksi Barang Titipan</Modal.Title>
+              <Modal.Title>
+                {transaksiEditIndex !== null ? "Edit" : "Tambah"} Transaksi
+                Barang Titipan
+              </Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Form onSubmit={handleTransaksiSubmit}>
