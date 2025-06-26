@@ -1,5 +1,10 @@
 import React from "react";
 import { generateLaporanStokGudang } from "../Owner/LaporanStokGudang";
+import { generateLaporanPerKategori } from "../Owner/LaporanPerKategori";
+import { generateLaporanBarangKadaluarsa } from "../Owner/LaporanBarangKadaluarsa";
+import { generateLaporanPenjualanBulanan } from "../Owner/LaporanPenjualanBulanan";
+import { generateLaporanKomisiPerProduk } from "../Owner/LaporanKomisiPerProduk";
+import { generateLaporanPenjualanHunter } from "../Owner/LaporanPenjualanHunter";
 
 const laporanList = [
   "Penjualan Bulanan Keseluruhan",
@@ -10,14 +15,36 @@ const laporanList = [
   "Laporan Donasi Barang",
   "Laporan Request Donasi",
   "Laporan Transaksi Penitip",
+  "Laporan Penjualan per Kategori Barang Hunter",
 ];
 
 export default function LaporanPage() {
   const handleGenerate = async (laporan) => {
     switch (laporan) {
+      case "Penjualan Bulanan Keseluruhan":
+        await generateLaporanPenjualanBulanan();
+        break;
+
+      case "Laporan Komisi Bulanan per Produk":
+        await generateLaporanKomisiPerProduk();
+        break;
+
       case "Laporan Stok Gudang":
         await generateLaporanStokGudang();
         break;
+
+      case "Laporan Penjualan per Kategori Barang":
+        await generateLaporanPerKategori();
+        break;
+
+      case "Laporan Barang Masa Penitipan Habis":
+        await generateLaporanBarangKadaluarsa();
+        break;
+
+      case "Laporan Penjualan per Kategori Barang Hunter":
+        await generateLaporanPenjualanHunter();
+        break;
+
       default:
         alert("Laporan belum tersedia");
     }

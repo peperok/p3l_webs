@@ -103,7 +103,23 @@ const router = createBrowserRouter([
   },
   {
     path: "homeOwner/laporan/LaporanPerKategori",
-    element: <generateLaporanStokGudang />,
+    element: <generateLaporanPerKategori />,
+  },
+  {
+    path: "homeOwner/laporan/LaporanBarangKadaluarsa",
+    element: <generateLaporanBarangKadaluarsa />,
+  },
+  {
+    path: "homeOwner/laporan/LaporanPenjualanBulanan",
+    element: <generateLaporanPenjualanBulanan />,
+  },
+  {
+    path: "homeOwner/laporan/LaporanKomisiPerProduk",
+    element: <generateLaporanKomisiPerProduk />,
+  },
+  {
+    path: "homeOwner/laporan/LaporanPenjualanHunter",
+    element: <generateLaporanPenjualanHunter />,
   },
 ]);
 

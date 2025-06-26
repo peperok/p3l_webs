@@ -76,3 +76,17 @@ export const DeleteBarang = async (id) => {
     throw error.response.data;
   }
 };
+
+export const laporanBarangKadaluarsa = async () => {
+  try {
+    const response = await useAxios.get("/penitipan/barangKadaluarsa", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      },
+    });
+    return response.data.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};

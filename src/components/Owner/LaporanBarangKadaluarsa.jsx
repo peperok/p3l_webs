@@ -2,18 +2,16 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import axios from "axios";
-import { laporanStokGudang } from "../../api/apiBarang";
+import { laporanBarangKadaluarsa } from "../../api/apiPenitipan";
 
-export async function generateLaporanStokGudang() {
+export async function generateLaporanBarangKadaluarsa() {
   try {
-    const data = await laporanStokGudang();
-    // console.log(data);
-
+    const data = await laporanBarangKadaluarsa();
+    // console.log("API response:", data);
     const tahun = data.tahun;
     const tanggalCetak = data.tanggalCetak;
 
     const doc = new jsPDF();
-
     doc.setFont("helvetica", "bold");
     doc.setFontSize(12);
     doc.text("ReUse Mart", 14, 15);
@@ -24,36 +22,36 @@ export async function generateLaporanStokGudang() {
 
     doc.setFont("helvetica", "bold");
     doc.setFontSize(12);
-    doc.text("LAPORAN PENJUALAN PER KATEGORI BARANG", 105, 30, {
+    doc.text("LAPORAN PENJUALAN YANG MASA PENITIPANNYA SUDAH HABIS", 105, 30, {
       align: "center",
     });
 
     doc.setFont("helvetica", "normal");
     doc.setFontSize(10);
+    doc.text(`Tahun : ${tahun}`, 14, 38);
     doc.text(`Tanggal cetak: ${tanggalCetak}`, 14, 44);
+
     // doc.setFontSize(16);
-    // doc.text("Laporan Stok Gudang", 10, 10);
+    // doc.text("Laporan Penjualan Per Kategori", 10, 10);
 
     const columns = [
-      "ID Barang",
-      "Nama Barang",
-      "ID Penitip",
-      "Tgl Masuk",
-      "Konfirmasi Perpanjangan",
-      "ID Hunter",
-      "Nama Petugas",
-      "Harga",
+      "Kode Produk",
+      "Nama Produk",
+      "Id Penitip",
+      "Nama Penitip",
+      "Tanggal Masuk",
+      "Tanggal Akhir",
+      "Batas Ambil",
     ];
 
     const rows = data.map((item) => [
       item.id_barang,
       item.nama_barang,
       item.id_penitip,
+      item.nama_penitip,
       item.tgl_penitipan,
-      item.konfirmasi_perpanjangan,
-      item.id_pegawai,
-      item.nama_petugas || "-",
-      item.harga_barang,
+      item.tgl_kadaluarsa,
+      item.tgl_pengembalian,
     ]);
 
     autoTable(doc, {
@@ -76,7 +74,7 @@ export async function generateLaporanStokGudang() {
       },
     });
 
-    doc.save("Laporan Stok Gudang.pdf");
+    doc.save("Laporan Barang Masa Penitipan Habis.pdf");
   } catch (error) {
     console.error("Gagal generate laporan stok gudang:", error);
     console.log("Token:", sessionStorage.getItem("token"));

@@ -2,15 +2,15 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import axios from "axios";
-import { laporanPerKategori, laporanStokGudang } from "../../api/apiBarang";
+import { laporanPenjualanHunter } from "../../api/apiBarang";
 
-export async function generateLaporanPerKategori() {
+export async function generateLaporanPenjualanHunter() {
   try {
-    const data = await laporanPerKategori();
+    const data = await laporanPenjualanHunter();
     // console.log(data);
     // const data = response.data; // array kategori
-    const tahun = data.tahun;
-    const tanggalCetak = data.tanggalCetak;
+    // const tahun = data.tahun;
+    // const tanggalCetak = data.tanggalCetak;
 
     const doc = new jsPDF();
     doc.setFont("helvetica", "bold");
@@ -23,19 +23,20 @@ export async function generateLaporanPerKategori() {
 
     doc.setFont("helvetica", "bold");
     doc.setFontSize(12);
-    doc.text("LAPORAN PENJUALAN PER KATEGORI BARANG", 105, 30, {
+    doc.text("LAPORAN KOMISI PER PRODUK", 105, 30, {
       align: "center",
     });
 
     doc.setFont("helvetica", "normal");
     doc.setFontSize(10);
-    doc.text(`Tahun : ${tahun}`, 14, 38);
-    doc.text(`Tanggal cetak: ${tanggalCetak}`, 14, 44);
+    // doc.doc.text(`Bulan : "Januari"`);
+    // doc.text(`Tahun : ${tahun}`, 14, 38);
+    // doc.text(`Tanggal cetak: ${tanggalCetak}`, 14, 44);
 
     // doc.setFontSize(16);
     // doc.text("Laporan Penjualan Per Kategori", 10, 10);
 
-    const columns = [
+    const penjualanColumns = [
       "Kategori",
       "Jumlah Item Terjual",
       "Jumlah Item Gagal Terjual",
@@ -47,31 +48,38 @@ export async function generateLaporanPerKategori() {
       item.jumlah_gagal,
     ]);
 
-    rows.push(["Total", "....", "...."]);
+    // const rows = data.map((item) => [
+    //   item.kategori,
+    //   item.jumlah_terjual,
+    //   item.jumlah_gagal,
+    // ]);
+
+    // rows.push(["Total", "....", "...."]);
 
     autoTable(doc, {
-      startY: 52,
-      head: [columns],
+      startY: 40,
+      head: [penjualanColumns],
       body: rows,
       theme: "grid",
       styles: {
         fontSize: 10,
+        cellPadding: 5,
         halign: "center",
         valign: "middle",
       },
       headStyles: {
-        fillColor: [230, 230, 230],
-        textColor: [0, 0, 0],
+        fillColor: [67, 67, 67],
+        textColor: [255, 255, 255],
         fontStyle: "bold",
       },
-      columnStyles: {
-        0: { halign: "left" },
+      alternateRowStyles: {
+        fillColor: [245, 245, 245],
       },
     });
 
-    doc.save("Laporan Pejualan Per Kategori.pdf");
+    doc.save("Laporan Penjualan Per Kategori Hunter.pdf");
   } catch (error) {
-    console.error("Gagal generate laporan stok gudang:", error);
+    console.error("Gagal generate penjualan per kategori hunter:", error);
     console.log("Token:", sessionStorage.getItem("token"));
 
     alert("Gagal mengambil data dari server");
