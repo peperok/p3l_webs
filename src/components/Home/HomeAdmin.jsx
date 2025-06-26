@@ -70,7 +70,7 @@ const HomeAdmin = () => {
           </NavLink>
         ))}
 
-        <NavLink to="/login" className="btn btn-warning text-dark mt-auto">
+        <NavLink to="/" className="btn btn-warning text-dark mt-auto">
           <i className="fas fa-sign-out-alt me-2"></i>
           {!collapsed && "Logout"}
         </NavLink>

@@ -1,9 +1,9 @@
 import useAxios from ".";
 
 //index (showAll)
-export const GetAllOrganisasis = async () => {
+export const GetAllRequestDonasis = async () => {
   try {
-    const response = await useAxios.get("/organisasi", {
+    const response = await useAxios.get("/reqDonasi", {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -16,10 +16,10 @@ export const GetAllOrganisasis = async () => {
 };
 
 //search
-export const GetOrganisasis = async () => {
-  const id = JSON.parse(sessionStorage.getItem("organisasi")).id;
+export const GetRequestDonasis = async () => {
+  const id = JSON.parse(sessionStorage.getItem("reqDonasi")).id;
   try {
-    const response = await useAxios.get(`/organisasi/${id}`, {
+    const response = await useAxios.get(`/reqDonasi/${id}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -31,26 +31,35 @@ export const GetOrganisasis = async () => {
   }
 };
 
-//store
-export const CreateOrganisasi = async (data) => {
+export const CreateRequestDonasis = async (data) => {
   try {
-    const response = await useAxios.post("/organisasi", data, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+    const id_organisasi = sessionStorage.getItem("id_organisasi"); // ambil ID organisasi
+
+    const response = await useAxios.post(
+      "/reqDonasi",
+      {
+        ...data,
+        id_organisasi: id_organisasi,
       },
-    });
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
+    );
+
     return response.data;
   } catch (error) {
-    throw error.response.data;
+    throw error.response?.data || error;
   }
 };
 
 //update
-export const UpdateOrganisasi = async (values) => {
+export const UpdateRequestDonasi = async (values) => {
   try {
     const response = await useAxios.put(
-      `/organisasi/${values.id_organisasi}`,
+      `/reqDonasi/${values.id_reqDonasi}`,
       values,
       {
         headers: {
@@ -66,11 +75,11 @@ export const UpdateOrganisasi = async (values) => {
 };
 
 //delete
-export const DeleteOrganisasi = async (id) => {
+export const DeleteRequestDonasis = async (id) => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
   try {
-    const response = await useAxios.delete(`/organisasi/${id}`, {
+    const response = await useAxios.delete(`/reqDonasi/${id}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,

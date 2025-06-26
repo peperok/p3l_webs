@@ -1,213 +1,235 @@
-import React, { useState } from "react";
-import {
-  Table,
-  Button,
-  Modal,
-  Form,
-  Row,
-  Col,
-  Container,
-} from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { NavLink, Outlet } from "react-router-dom";
 
-const initialForm = { nama: "", alamat: "", notelp: "" };
-
-const styles = {
-  headerTitle: {
-    color: "#5a374b",
-    fontWeight: 600,
-  },
-  addButton: {
-    backgroundColor: "#937f6a",
-    border: "none",
-    color: "white",
-    padding: "8px 16px",
-    borderRadius: "6px",
-  },
-  editButton: {
-    backgroundColor: "#b4a95c",
-    border: "none",
-    color: "white",
-  },
-  deleteButton: {
-    backgroundColor: "#5a374b",
-    border: "none",
-    color: "white",
-  },
-  headerTable: {
-    backgroundColor: "#5a374b",
-    color: "white",
-  },
-  searchBox: {
-    maxWidth: 400,
-  },
-  modalHeader: {
-    backgroundColor: "#3a4550",
-    color: "white",
-  },
-};
+const navItems = [
+  { label: "Request Donasi", path: "requestDonasi" },
+  { label: "Profile", path: "profile" },
+];
 
 const HomeOrganisasi = () => {
-  const [organisasiList, setOrganisasiList] = useState([]);
-  const [formData, setFormData] = useState(initialForm);
-  const [search, setSearch] = useState("");
-  const [editIndex, setEditIndex] = useState(null);
-  const [showModal, setShowModal] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date());
 
-  const handleShow = () => setShowModal(true);
-  const handleClose = () => {
-    setShowModal(false);
-    setFormData(initialForm);
-    setEditIndex(null);
-  };
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (editIndex !== null) {
-      const updated = [...organisasiList];
-      updated[editIndex] = formData;
-      setOrganisasiList(updated);
-    } else {
-      setOrganisasiList([...organisasiList, formData]);
-    }
-    handleClose();
-  };
-
-  const handleEdit = (index) => {
-    setFormData(organisasiList[index]);
-    setEditIndex(index);
-    handleShow();
-  };
-
-  const handleDelete = (index) => {
-    const updated = organisasiList.filter((_, i) => i !== index);
-    setOrganisasiList(updated);
-  };
-
-  const filteredList = organisasiList.filter((item) =>
-    item.nama.toLowerCase().includes(search.toLowerCase())
-  );
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
-    <Container
-      fluid
-      style={{ fontFamily: "Poppins, sans-serif", paddingTop: 20 }}
+    <div
+      style={{
+        display: "flex",
+        height: "100vh",
+        fontFamily: "'Poppins', sans-serif",
+        backgroundColor: "#f1f1f3",
+      }}
     >
-      <Row className="align-items-center mb-3">
-        <Col>
-          <h4 style={styles.headerTitle}>Silahkan mengisi Data Organisasi</h4>
-        </Col>
-        <Col className="text-end">
-          <Button style={styles.addButton} onClick={handleShow}>
-            + Tambah Organisasi
-          </Button>
-        </Col>
-      </Row>
+      {/* Sidebar */}
+      <div
+        style={{
+          width: collapsed ? "80px" : "250px",
+          backgroundColor: "#5a374b",
+          color: "#fff",
+          padding: "20px 15px",
+          display: "flex",
+          flexDirection: "column",
+          transition: "width 0.3s ease",
+          boxShadow: "2px 0 8px rgba(0,0,0,0.15)",
+          position: "relative",
+          zIndex: 100,
+        }}
+      >
+        <div
+          className="d-flex justify-content-between align-items-center mb-4"
+          style={{ padding: collapsed ? "0 10px" : "0" }}
+        >
+          {!collapsed && (
+            <h4
+              style={{
+                margin: 0,
+                fontWeight: "700",
+                fontSize: "1.5rem",
+                letterSpacing: "1px",
+                userSelect: "none",
+              }}
+            >
+              Home Organisasi
+            </h4>
+          )}
+          <button
+            className="btn btn-sm btn-light"
+            onClick={() => setCollapsed(!collapsed)}
+            style={{
+              border: "none",
+              backgroundColor: "transparent",
+              color: "#fff",
+              fontSize: "1.2rem",
+              cursor: "pointer",
+              padding: collapsed ? "0" : "5px 8px",
+              transition: "color 0.3s",
+            }}
+            aria-label="Toggle sidebar"
+          >
+            <i className="fas fa-bars"></i>
+          </button>
+        </div>
 
-      <Form.Control
-        type="text"
-        placeholder="Cari berdasarkan nama..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="mb-3"
-        style={styles.searchBox}
-      />
+        <nav style={{ flexGrow: 1 }}>
+          {navItems.map(({ label, path }) => (
+            <NavLink
+              key={path}
+              to={path}
+              className={({ isActive }) =>
+                `d-flex align-items-center mb-3 px-3 py-2 rounded text-decoration-none ${
+                  isActive ? "active" : ""
+                }`
+              }
+              style={{
+                fontWeight: 600,
+                fontSize: "1rem",
+                color: "#fff",
+                gap: collapsed ? 0 : 10,
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                transition: "background-color 0.3s, color 0.3s",
+              }}
+              title={label}
+            >
+              <i
+                className="fas fa-circle"
+                style={{
+                  fontSize: "0.7rem",
+                  transform: "scale(1.2)",
+                  color: "rgba(255,255,255,0.7)",
+                }}
+              ></i>
+              {!collapsed && <span>{label}</span>}
+            </NavLink>
+          ))}
+        </nav>
 
-      <div className="table-responsive">
-        <Table bordered hover className="bg-white table-striped">
-          <thead>
-            <tr style={styles.headerTable}>
-              <th>#</th>
-              <th>Nama </th>
-              <th>Deskripsi</th>
-              <th>Tanggal</th>
-              <th>Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredList.length > 0 ? (
-              filteredList.map((org, index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{org.nama}</td>
-                  <td>{org.alamat}</td>
-                  <td>{org.notelp}</td>
-                  <td>
-                    <Button
-                      size="sm"
-                      style={{ ...styles.editButton, marginRight: "8px" }}
-                      onClick={() => handleEdit(index)}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      size="sm"
-                      style={styles.deleteButton}
-                      onClick={() => handleDelete(index)}
-                    >
-                      Hapus
-                    </Button>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={5} className="text-center text-muted">
-                  Data tidak ditemukan
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </Table>
+        <NavLink
+          to="/"
+          className="btn btn-warning text-dark mt-auto d-flex align-items-center justify-content-center"
+          style={{
+            border: "none",
+            fontWeight: "600",
+            fontSize: "1rem",
+            gap: collapsed ? 0 : 10,
+            padding: collapsed ? "10px 0" : "10px 20px",
+            borderRadius: "6px",
+            userSelect: "none",
+          }}
+          title="Logout"
+        >
+          <i className="fas fa-sign-out-alt"></i>
+          {!collapsed && <span>Logout</span>}
+        </NavLink>
       </div>
 
-      <Modal show={showModal} onHide={handleClose} centered>
-        <Modal.Header closeButton style={styles.modalHeader}>
-          <Modal.Title>
-            {editIndex !== null ? "Edit" : "Tambah"} Organisasi
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="nama">
-              <Form.Label>Nama </Form.Label>
-              <Form.Control
-                name="nama"
-                value={formData.nama}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="alamat">
-              <Form.Label>deskripsi</Form.Label>
-              <Form.Control
-                name="alamat"
-                value={formData.alamat}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="notelp">
-              <Form.Label>tanggal</Form.Label>
-              <Form.Control
-                name="notelp"
-                value={formData.notelp}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
-            <div className="text-end">
-              <Button type="submit" style={styles.addButton}>
-                Simpan
-              </Button>
-            </div>
-          </Form>
-        </Modal.Body>
-      </Modal>
-    </Container>
+      {/* Main Content */}
+      <main
+        style={{
+          flex: 1,
+          backgroundColor: "#fff",
+          overflowY: "auto",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        {/* Header */}
+        <header
+          className="px-4 py-3 d-flex justify-content-between align-items-center"
+          style={{
+            backgroundColor: "#ffffff",
+            borderBottom: "1px solid #ddd",
+            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
+            userSelect: "none",
+          }}
+        >
+          <div>
+            <h5
+              className="mb-1"
+              style={{
+                color: "#5a374b",
+                fontWeight: 700,
+                fontSize: "1.2rem",
+              }}
+            >
+              Selamat datang, Home Organisasi! 👋
+            </h5>
+            <small style={{ color: "#937f6a", fontWeight: 500 }}>
+              {currentTime.toLocaleDateString("id-ID", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}{" "}
+              • {currentTime.toLocaleTimeString("id-ID")}
+            </small>
+          </div>
+          <div
+            className="d-flex align-items-center gap-3"
+            style={{ cursor: "default" }}
+          >
+            <img
+              src="https://placehold.co/40x40"
+              alt="Home Organisasi"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = "https://placehold.co/40x40?text=404";
+              }}
+              className="rounded-circle"
+              style={{
+                border: "2px solid #937f6a",
+                boxShadow: "0 0 8px rgba(147, 127, 106, 0.7)",
+              }}
+            />
+          </div>
+        </header>
+
+        {/* Content (Nested Route) */}
+        <section
+          className="p-4"
+          style={{ flexGrow: 1, backgroundColor: "#f8f9fa", overflowY: "auto" }}
+        >
+          <Outlet />
+        </section>
+      </main>
+
+      {/* Styles */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+
+        .nav-link:hover {
+          background-color: #6e4e5d !important;
+          color: white !important;
+        }
+
+        .nav-link.active {
+          background-color: #fff !important;
+          color: #5a374b !important;
+          font-weight: 700 !important;
+        }
+
+        button.btn.btn-sm.btn-light:hover {
+          color: #937f6a !important;
+          background-color: transparent !important;
+        }
+
+        .btn-warning {
+          background-color: #937f6a !important;
+          border: none !important;
+          transition: background-color 0.3s ease;
+        }
+        .btn-warning:hover {
+          background-color: #5a374b !important;
+          color: white !important;
+        }
+      `}</style>
+    </div>
   );
 };
 

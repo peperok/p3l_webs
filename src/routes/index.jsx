@@ -21,6 +21,7 @@ import PaymentAndRating from "../components/Home/PaymentAndRating";
 import DataPegawai from "../components/Admin/DataPegawai";
 import LaporanPage from "../components/Owner/LaporanPage";
 import PenitipCRUD from "../components/CS/CRUDPenitip";
+import RequestDonasiCRUD from "../components/Organisasi/CRUDRequestDonasi";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
     element: <HomeOrganisasi />,
   },
   {
+    path: "/homeGudang",
+    element: <HomeGudang />,
+  },
+  {
     path: "/homeAdmin",
     element: <HomeAdmin />,
   },
@@ -70,6 +75,17 @@ const router = createBrowserRouter([
       {
         path: "penitip", // hasil akhir: /homeCS/penitip
         element: <PenitipCRUD />,
+      },
+      // tambahkan rute lain di sini sesuai kebutuhan
+    ],
+  },
+  {
+    path: "/homeOrganisasi",
+    element: <HomeOrganisasi />,
+    children: [
+      {
+        path: "requestDonasi", // hasil akhir: /homeCS/penitip
+        element: <RequestDonasiCRUD />,
       },
       // tambahkan rute lain di sini sesuai kebutuhan
     ],

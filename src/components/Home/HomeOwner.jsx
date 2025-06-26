@@ -113,7 +113,7 @@ const HomeOwner = () => {
         </nav>
 
         <NavLink
-          to="/login"
+          to="/"
           className="btn btn-warning text-dark mt-auto d-flex align-items-center justify-content-center"
           style={{
             border: "none",
