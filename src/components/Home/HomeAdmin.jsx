@@ -31,7 +31,13 @@ const HomeAdmin = () => {
   }, []);
 
   return (
-    <div style={{ display: "flex", height: "100vh", fontFamily: "Poppins, sans-serif" }}>
+    <div
+      style={{
+        display: "flex",
+        height: "100vh",
+        fontFamily: "Poppins, sans-serif",
+      }}
+    >
       {/* Sidebar */}
       <div
         style={{
@@ -41,6 +47,7 @@ const HomeAdmin = () => {
           padding: "20px",
           display: "flex",
           flexDirection: "column",
+          height: "100vh",
           transition: "0.3s",
         }}
       >
@@ -70,7 +77,10 @@ const HomeAdmin = () => {
           </NavLink>
         ))}
 
-        <NavLink to="/" className="btn btn-warning text-dark mt-auto">
+        <NavLink
+          to="/login"
+          className="btn btn-warning text-dark mt-auto d-flex align-items-center"
+        >
           <i className="fas fa-sign-out-alt me-2"></i>
           {!collapsed && "Logout"}
         </NavLink>

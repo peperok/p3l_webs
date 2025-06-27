@@ -170,7 +170,7 @@ const DataPegawai = () => {
             </Col>
             <Col className="text-end">
               <Button style={styles.addButton} onClick={handleShow}>
-                Transaksi
+                Tambah
               </Button>
             </Col>
           </Row>
@@ -189,9 +189,10 @@ const DataPegawai = () => {
               <thead>
                 <tr style={styles.headerTable}>
                   <th>#</th>
-                  <th>Nama Barang</th>
-                  <th>Harga Barang</th>
-                  <th>Status</th>
+                  <th>Nama Pegawai</th>
+                  <th>Jabatan</th>
+                  <th>Email</th>
+                  <th>Tanggal Lahir</th>
                 </tr>
               </thead>
               <tbody>
@@ -233,7 +234,7 @@ const DataPegawai = () => {
           <Modal.Body>
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
-                <Form.Label>Nama Barang</Form.Label>
+                <Form.Label>Nama Pegawai</Form.Label>
                 <Form.Control
                   name="nama"
                   value={formData.nama}
@@ -242,7 +243,7 @@ const DataPegawai = () => {
                 />
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>Harga Barang</Form.Label>
+                <Form.Label>Email</Form.Label>
                 <Form.Control
                   name="username"
                   value={formData.username}
@@ -251,7 +252,7 @@ const DataPegawai = () => {
                 />
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>Status Barang</Form.Label>
+                <Form.Label>Jabatan</Form.Label>
                 <Form.Control
                   name="jabatan"
                   value={formData.jabatan}

@@ -22,6 +22,8 @@ import DataPegawai from "../components/Admin/DataPegawai";
 import LaporanPage from "../components/Owner/LaporanPage";
 import PenitipCRUD from "../components/CS/CRUDPenitip";
 import RequestDonasiCRUD from "../components/Organisasi/CRUDRequestDonasi";
+import ProfilPembeli from "../components/Profil/ProfilPembeli";
+import DataOrganisasi from "../components/Owner/DataOrgan";
 
 const router = createBrowserRouter([
   {
@@ -95,6 +97,10 @@ const router = createBrowserRouter([
     element: <ProfilPenitip />,
   },
   {
+    path: "/profilPembeli",
+    element: <ProfilPembeli />,
+  },
+  {
     path: "/keranjang",
     element: <Keranjang />,
   },
@@ -106,10 +112,10 @@ const router = createBrowserRouter([
     path: "/paymentSuccess",
     element: <PaymentAndRating productId={1} />,
   },
-  // {
-  //   path: "homeCS/admin/penitip",
-  //   element: <DataPenitip />,
-  // },
+  {
+    path: "/dataOrganisasi",
+    element: <DataOrganisasi />,
+  },
   {
     path: "/admin/komisi",
     element: <Komisi />,

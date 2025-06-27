@@ -6,12 +6,12 @@ const SignIn = async (data) => {
     {
       url: "/loginPenitip",
       role: "Penitip",
-      redirectLogic: () => "/HomeAfter",
+      redirectLogic: () => "/homeAfter",
     },
     {
       url: "/loginPembeli",
       role: "Pembeli",
-      redirectLogic: () => "/HomeAfter",
+      redirectLogic: () => "/homeAfter",
     },
     {
       url: "/loginPegawai",
@@ -50,7 +50,6 @@ const SignIn = async (data) => {
 
   for (const role of roles) {
     try {
-
       const requestData =
         role.role === "Pegawai" ? { ...data, jabatan: data.jabatan } : data;
 
@@ -62,7 +61,6 @@ const SignIn = async (data) => {
       sessionStorage.setItem("token", token);
       sessionStorage.setItem("role", role.role);
       sessionStorage.setItem("user", JSON.stringify(detail));
-
 
       const redirectUrl = role.redirectLogic(detail);
 

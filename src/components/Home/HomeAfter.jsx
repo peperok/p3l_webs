@@ -26,8 +26,8 @@ import {
 } from "react-icons/fa";
 
 const user = {
-  name: "Wirayudhika",
-  email: "wira@gmail.com",
+  name: "Angelina",
+  email: "angelina02@gmail.com",
 };
 
 function HomeAfter() {
@@ -378,7 +378,7 @@ function HomeAfter() {
               >
                 <NavDropdown.Item
                   as={Link}
-                  to="/profil-pembeli"
+                  to="/profilPembeli"
                   onClick={() => setShowUserMenu(false)}
                 >
                   Profil

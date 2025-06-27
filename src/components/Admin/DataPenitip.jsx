@@ -12,17 +12,17 @@ import {
 } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
-// const navItems = [
-//   // "Dashboard",
-//   // "Barang",
-//   // "Merchandise",
-//   // "Data Pegawai",
-//   // "Data Pembeli",
-//   // "Data Penitip",
-//   // "Data Organisasi",
-//   // "Request Donasi",
-//   // "Profile",
-// ];
+const navItems = [
+  "Dashboard",
+  "Barang",
+  "Merchandise",
+  "Data Pegawai",
+  "Data Pembeli",
+  "Data Penitip",
+  "Data Organisasi",
+  "Request Donasi",
+  "Profile",
+];
 
 const initialForm = { nama: "", alamat: "", notelp: "" };
 const initialTransaksiForm = { barang: "", jumlah: 1, tanggalMasuk: "" };
